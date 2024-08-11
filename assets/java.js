@@ -1,6 +1,7 @@
 var hoursContainer = document.querySelector('.hours')
 var minutesContainer = document.querySelector('.minutes')
 var secondsContainer = document.querySelector('.seconds')
+var dateContainer = document.querySelector('.date')
 var tickElements = Array.from(document.querySelectorAll('.tick'))
 
 var last = new Date(0)
@@ -26,9 +27,10 @@ function updateTime () {
   var lastSeconds = last.getSeconds().toString()
   var nowSeconds = now.getSeconds().toString()
   if (lastSeconds !== nowSeconds) {
-    //tick()
     updateContainer(secondsContainer, nowSeconds)
   }
+
+  updateDate(now)
   
   last = now
 }
@@ -44,7 +46,6 @@ function updateContainer (container, newTime) {
     time.unshift('0')
   }
   
-  
   var first = container.firstElementChild
   if (first.lastElementChild.textContent !== time[0]) {
     updateNumber(first, time[0])
@@ -57,7 +58,6 @@ function updateContainer (container, newTime) {
 }
 
 function updateNumber (element, number) {
-  //element.lastElementChild.textContent = number
   var second = element.lastElementChild.cloneNode(true)
   second.textContent = number
   
@@ -70,6 +70,12 @@ function updateNumber (element, number) {
   setTimeout(function () {
     element.removeChild(element.firstElementChild)
   }, 990)
+}
+
+function updateDate(now) {
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var dateString = now.toLocaleDateString('en-US', options);
+  dateContainer.textContent = dateString;
 }
 
 setInterval(updateTime, 100)
