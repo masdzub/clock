@@ -67,4 +67,6 @@
     }
   }
   
-  
+.clock .number {
+  font-family: 'Digital-7', sans-serif;
+}
