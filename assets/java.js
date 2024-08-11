@@ -1,81 +1,33 @@
-var hoursContainer = document.querySelector('.hours')
-var minutesContainer = document.querySelector('.minutes')
-var secondsContainer = document.querySelector('.seconds')
-var dateContainer = document.querySelector('.date')
-var tickElements = Array.from(document.querySelectorAll('.tick'))
+new Vue({
+  el: '#app',
+  data: {
+    hoursFirstDigit: '0',
+    hoursSecondDigit: '0',
+    minutesFirstDigit: '0',
+    minutesSecondDigit: '0',
+    secondsFirstDigit: '0',
+    secondsSecondDigit: '0',
+    currentDate: ''
+  },
+  methods: {
+    updateTime() {
+      const now = moment();
+      const hours = now.format('HH');
+      const minutes = now.format('mm');
+      const seconds = now.format('ss');
 
-var last = new Date(0)
-last.setUTCHours(-1)
+      this.hoursFirstDigit = hours[0];
+      this.hoursSecondDigit = hours[1];
+      this.minutesFirstDigit = minutes[0];
+      this.minutesSecondDigit = minutes[1];
+      this.secondsFirstDigit = seconds[0];
+      this.secondsSecondDigit = seconds[1];
 
-var tickState = true
-
-function updateTime () {
-  var now = new Date
-  
-  var lastHours = last.getHours().toString()
-  var nowHours = now.getHours().toString()
-  if (lastHours !== nowHours) {
-    updateContainer(hoursContainer, nowHours)
+      this.currentDate = now.format('dddd, MMMM D, YYYY');
+    }
+  },
+  mounted() {
+    this.updateTime();
+    setInterval(this.updateTime, 1000);
   }
-  
-  var lastMinutes = last.getMinutes().toString()
-  var nowMinutes = now.getMinutes().toString()
-  if (lastMinutes !== nowMinutes) {
-    updateContainer(minutesContainer, nowMinutes)
-  }
-  
-  var lastSeconds = last.getSeconds().toString()
-  var nowSeconds = now.getSeconds().toString()
-  if (lastSeconds !== nowSeconds) {
-    updateContainer(secondsContainer, nowSeconds)
-  }
-
-  updateDate(now)
-  
-  last = now
-}
-
-function tick () {
-  tickElements.forEach(t => t.classList.toggle('tick-hidden'))
-}
-
-function updateContainer (container, newTime) {
-  var time = newTime.split('')
-  
-  if (time.length === 1) {
-    time.unshift('0')
-  }
-  
-  var first = container.firstElementChild
-  if (first.lastElementChild.textContent !== time[0]) {
-    updateNumber(first, time[0])
-  }
-  
-  var last = container.lastElementChild
-  if (last.lastElementChild.textContent !== time[1]) {
-    updateNumber(last, time[1])
-  }
-}
-
-function updateNumber (element, number) {
-  var second = element.lastElementChild.cloneNode(true)
-  second.textContent = number
-  
-  element.appendChild(second)
-  element.classList.add('move')
-
-  setTimeout(function () {
-    element.classList.remove('move')
-  }, 990)
-  setTimeout(function () {
-    element.removeChild(element.firstElementChild)
-  }, 990)
-}
-
-function updateDate(now) {
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  var dateString = now.toLocaleDateString('en-US', options);
-  dateContainer.textContent = dateString;
-}
-
-setInterval(updateTime, 100)
+});
