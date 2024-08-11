@@ -28,6 +28,7 @@ body {
   overflow: hidden;
 }
 
+/*
 .clock::before, .clock::after {
   content: '';
   width: 7ch;
@@ -36,6 +37,7 @@ body {
   position: absolute;
   z-index: 2;
 }
+*/
 
 .clock::after {
   bottom: 0;
@@ -50,12 +52,12 @@ body {
   line-height: 17vh;
 }
 
-.tick-hidden {
-  opacity: 0;
-}
-
 .move {
   animation: move linear 1s infinite;
+}
+
+.seconds {
+  font-size: 5vh;
 }
 
 @keyframes move {
@@ -68,12 +70,12 @@ body {
 }
 
 .clock .number {
-  font-family: 'Digital-7', sans-serif;
+  font-family: 'Kontrapunkt Light', sans-serif;
 }
 
 .date {
+  font-family: 'Baginda Script', sans-serif;
   color: white;
-  font-family: 'Digital-7', sans-serif;
-  font-size: 5vh;
+  font-size: 7vh;
   margin-top: 2vh;
 }
